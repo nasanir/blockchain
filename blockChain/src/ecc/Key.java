@@ -15,7 +15,7 @@ import java.security.spec.ECGenParameterSpec;
 import java.security.spec.ECPublicKeySpec;
 import java.util.Base64;
 
-import blockchain.util.EncryptionUtil;
+import blockchain.util.TransformUtil;
 import sun.security.ec.ECPublicKeyImpl;
 
 /**
@@ -33,20 +33,9 @@ import sun.security.ec.ECPublicKeyImpl;
  * @date 2018年4月14日  
  */
 public class Key {
-	EncryptionUtil tohash = new EncryptionUtil();
+	TransformUtil tohash = new TransformUtil();
 
-	/**
-	 * 
-	 *  *
-	 * <p>
-	 * Title: ecc
-	 * </p>
-	 *    *
-	 * <p>
-	 * Description:
-	 * </p>
-	 *  * @return    
-	 */
+
 	public String ecc() {
 		KeyPairGenerator keyP;
 		try {
@@ -55,8 +44,8 @@ public class Key {
 			keyP.initialize(ecP, new SecureRandom());
 			KeyPair keyPair = keyP.generateKeyPair();
 			System.out.println(keyPair.getPublic());
-			byte[] a = pubKeyToByteArr(keyPair);
-			printByte(a);
+			System.out.println(publicKeyToAddress(pubKeyToString(keyPair)));
+			System.out.println(publicKeyToAddress(pubKeyToString(keyPair)).length());
 			return "";
 
 		} catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
@@ -67,80 +56,46 @@ public class Key {
 
 	}
 
-	/**
-	 * 
-	 *  *
-	 * <p>
-	 * Title: pubKeyToString
-	 * </p>
-	 *    *
-	 * <p>
-	 * Description:
-	 * </p>
-	 *  * @param keyPair  * @return    
-	 */
 	public byte[] pubKeyToByteArr(KeyPair keyPair) {
-		byte[] keyArr = new byte[64];
+		byte[] keyArr = new byte[32];
 		PublicKey genPublicKey = keyPair.getPublic();
 		ECPublicKeyImpl ecPulicKey = (ECPublicKeyImpl) genPublicKey;
 
 		byte[] xArrSrc = ecPulicKey.getW().getAffineX().toByteArray();
-		byte[] yArrSrc = ecPulicKey.getW().getAffineY().toByteArray();
-		printByte(xArrSrc);
-		printByte(yArrSrc);
 		if (xArrSrc.length != 32) {
 			System.arraycopy(xArrSrc, 1, keyArr, 0, 32);
-		}
-		if (yArrSrc.length != 32) {
-			System.arraycopy(yArrSrc, 1, keyArr, 32, 32);
-		} else {
-			System.arraycopy(yArrSrc, 0, keyArr, 32, 32);
 		}
 		return keyArr;
 	}
 
-	/**
-	 * 
-	 *  *
-	 * <p>
-	 * Title: priKeyToString
-	 * </p>
-	 *    *
-	 * <p>
-	 * Description:
-	 * </p>
-	 *  * @param keyPair  * @return    
-	 */
+	public String pubKeyToString(KeyPair keyPair){
+		PublicKey genPublicKey = keyPair.getPublic();
+		ECPublicKeyImpl ecPulicKey = (ECPublicKeyImpl) genPublicKey;
+		String xArrSrc = ecPulicKey.getW().getAffineX().toString();
+		return xArrSrc;
+	}
+	
+	
 	public String priKeyToString(KeyPair keyPair) {
 		PrivateKey genprivateKey = keyPair.getPrivate();
 		ECPrivateKey ecPrivateKey = (ECPrivateKey) genprivateKey;
 		return ecPrivateKey.getS().toString();
 	}
 
-	public String publicKeyToAddress(byte[] publicKeyArr) throws NoSuchAlgorithmException {
-		byte[] addrArrF=new byte[65];
-		addrArrF[0]=64;
-		System.arraycopy(publicKeyArr, 0, addrArrF, 64, 64);
-		String publicKey=
-		StringBuffer checkData = new StringBuffer();
+	public String publicKeyToAddress(String publicKey) throws NoSuchAlgorithmException {
 		StringBuffer result = new StringBuffer();
 
-		String hex256 = tohash.sha256(publick);
-		checkData.append(hex256.substring(0, 4));
-
+		String hex256 = tohash.sha256(publicKey);
 		String hex160 = tohash.ripe160(hex256);
-		checkData.append(hex160.substring(0, 4));
-
-		result.append("00").append(hex256).append(hex160).append(checkData.toString());
-		return result.toString();
+		
+		result.append("34").append(hex160);
+		
+		String hex256Check=tohash.sha256(result.toString());
+		hex256Check=tohash.sha256(hex256Check).substring(0,8);
+		result.append(hex256Check);
+		
+		return tohash.hex16Tobase58Encode(result.toString());
 	}
 
-	public void printByte(byte[] a) {
-		System.out.println(a.length);
-		for (int i = 0; i < a.length; i++) {
-			System.out.print(a[i] + ",");
-		}
-		System.out.println("----");
-	}
 
 }

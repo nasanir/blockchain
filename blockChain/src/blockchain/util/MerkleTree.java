@@ -8,7 +8,7 @@ import blockchain.Block;
 import blockchain.Transaction;
 
 public class MerkleTree {
-	EncryptionUtil tohash = new EncryptionUtil();
+	TransformUtil tohash = new TransformUtil();
 
 	ArrayList<String> hashList = new ArrayList<String>();
 	
