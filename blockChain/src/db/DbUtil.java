@@ -14,6 +14,7 @@ import blockchain.Block;
 
 public class DbUtil implements db {
 	private static String BLOCK = "db/block.tdl";
+	private static String WALLET = "db/wallet.txt";
 
 	public void add(Block block) throws IOException {
 		File blockFile = new File(BLOCK);
@@ -38,6 +39,14 @@ public class DbUtil implements db {
 		dis.close();
 		fis.close();
 		return blockDbData;
+	}
+	
+	public void add(String data) throws IOException {
+		File File = new File(WALLET);
+		byte[] DataByte = data.getBytes();
+		FileOutputStream fos = new FileOutputStream(File,true);
+		fos.write(DataByte);
+		fos.close();
 	}
 
 	/**

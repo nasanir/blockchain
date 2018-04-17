@@ -7,8 +7,11 @@ import ecc.Key;
 
 public class BlockTest {
 	public static void main(String[] arg){
-		Key k=new Key();
-			k.ecc();
+//		Key k=new Key();
+//		for(int i=0;i<10;i++){
+//			System.out.println(k.ecc());;
+//		}
+			System.out.println("1F2xdFPEY219hib1bf1xaCywSqPCiNGtKb".length());
 	}
 	
     private static byte divmod58(byte[] number, int startAt) {  

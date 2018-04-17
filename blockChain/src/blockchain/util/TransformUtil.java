@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
+import org.bouncycastle.crypto.digests.RIPEMD160Digest;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
@@ -30,9 +31,11 @@ public class TransformUtil {
 	}
 
 	public String ripe160(String message) throws NoSuchAlgorithmException {
-		Security.addProvider(new BouncyCastleProvider());
-		MessageDigest md = MessageDigest.getInstance("RipeMD160");
-		byte[] ciphertext = md.digest();
+		RIPEMD160Digest digest = new RIPEMD160Digest();
+		digest.update(message.getBytes(), 0, message.getBytes().length);
+		byte[] ciphertext = new byte[digest.getDigestSize()];
+		digest.doFinal(ciphertext, 0);
+
 		return byteToHex(ciphertext);
 	}
 
@@ -76,6 +79,13 @@ public class TransformUtil {
 	}
 	
 	public String hex16Tobase58Encode(String message){
+		boolean startZero=false;
+		if(message.startsWith("0")){
+			while(message.startsWith("0")){
+				message=message.substring(1);
+			}
+			startZero=true;
+		}
 		BigInteger hex =new BigInteger(message,16);
 		char[] b58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 				.toCharArray();
@@ -86,9 +96,14 @@ public class TransformUtil {
 					.toString())] + result;
 			hex=hex.divide(new BigInteger(BASE58_MOD));
 		}
+		
+		if(startZero){
+			result=b58[0]+result;
+		}
+		
 		return result;
 	}
-
+	
 	public String byteTo10String() {
 		return null;
 	}
