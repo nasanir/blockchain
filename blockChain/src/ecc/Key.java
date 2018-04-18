@@ -12,7 +12,9 @@ import java.security.interfaces.ECPrivateKey;
 import java.security.spec.ECGenParameterSpec;
 
 import db.DbUtil;
-import blockchain.util.TransformUtil;
+import blockchain.util.Base58Util;
+import blockchain.util.HexUtil;
+import constant.Constant;
 import sun.security.ec.ECPublicKeyImpl;
 
 /**
@@ -21,34 +23,20 @@ import sun.security.ec.ECPublicKeyImpl;
  *
  */
 public class Key {
-	TransformUtil tohash = new TransformUtil();
-	DbUtil db = new DbUtil();
-	private static String VER = "0";
-	private static int BITLENGHT = 32;
+	private HexUtil tohash = new HexUtil();
+	private Base58Util base58 = new Base58Util();
+	private DbUtil db = new DbUtil();
 
-	public String ecc() {
+	public String ecc() throws IOException, InvalidAlgorithmParameterException, NoSuchAlgorithmException {
 		KeyPairGenerator keyP;
-		try {
-			keyP = KeyPairGenerator.getInstance("EC");
-			ECGenParameterSpec ecP = new ECGenParameterSpec("secp256k1");
-			keyP.initialize(ecP, new SecureRandom());
-			KeyPair keyPair = keyP.generateKeyPair();
-			String address = publicKeyToAddress(pubKeyToString(keyPair));
-			try {
-				db.add(priKeyToString(keyPair) + "   "
-						+ pubKeyToString(keyPair) + "   " + address+"\n");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		keyP = KeyPairGenerator.getInstance("EC");
+		ECGenParameterSpec ecP = new ECGenParameterSpec("secp256k1");
+		keyP.initialize(ecP, new SecureRandom());
+		KeyPair keyPair = keyP.generateKeyPair();
+		String address = publicKeyToAddress(pubKeyToString(keyPair));
+		db.add(priKeyToString(keyPair) + "   " + pubKeyToString(keyPair) + "   " + address + "\n");
 
-			return address;
-
-		} catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		}
+		return address;
 	}
 
 	public String pubKeyToString(KeyPair keyPair) {
@@ -64,38 +52,17 @@ public class Key {
 		return ecPrivateKey.getS().toString();
 	}
 
-	public String publicKeyToAddress(String publicKey)
-			throws NoSuchAlgorithmException {
+	public String publicKeyToAddress(String publicKey) throws NoSuchAlgorithmException {
 		StringBuffer result = new StringBuffer();
 
 		String hex256 = tohash.sha256(publicKey);
 		String hex160 = tohash.ripe160(hex256);
 
-		result.append(VER).append(hex160);
+		result.append(Constant.VER).append(hex160);
 
 		String hex256Check = tohash.sha256(result.toString());
 		hex256Check = tohash.sha256(hex256Check).substring(0, 8);
 		result.append(hex256Check);
-
-		return tohash.hex16Tobase58Encode(result.toString());
-	}
-
-	// public byte[] pubKeyToByteArr(KeyPair keyPair) {
-	// byte[] keyArr = new byte[32];
-	// PublicKey genPublicKey = keyPair.getPublic();
-	// ECPublicKeyImpl ecPulicKey = (ECPublicKeyImpl) genPublicKey;
-	//
-	// byte[] xArrSrc = ecPulicKey.getW().getAffineX().toByteArray();
-	// if (xArrSrc.length != BITLENGHT) {
-	// System.arraycopy(xArrSrc, 1, keyArr, 0, 32);
-	// }
-	// return keyArr;
-	// }
-	public void sign(KeyBean keybean){
-		
-	}
-	
-	public void validate(){
-		
+		return base58.base58Encode(result.toString(), Constant.HEX);
 	}
 }
