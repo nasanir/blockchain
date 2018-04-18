@@ -91,5 +91,11 @@ public class Key {
 	// }
 	// return keyArr;
 	// }
-
+	public void sign(KeyBean keybean){
+		
+	}
+	
+	public void validate(){
+		
+	}
 }

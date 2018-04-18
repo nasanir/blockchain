@@ -2,6 +2,7 @@ package blockchain;
 
 import java.io.ObjectInputStream.GetField;
 
+
 public class Transaction {
 	private String sender;
 	private String recipient;

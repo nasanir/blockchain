@@ -104,6 +104,10 @@ public class TransformUtil {
 		return result;
 	}
 	
+	public String StringTobase58Encode(String message){
+		return message;
+	}
+	
 	public String byteTo10String() {
 		return null;
 	}
