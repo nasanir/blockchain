@@ -1,5 +1,4 @@
-/blockchain/
-/ecc/
-/test/
-/db/
 /constant/
+/test/
+/ecc/
+/blockchain/

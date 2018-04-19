@@ -1,15 +1,22 @@
 package ecc;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.interfaces.ECPrivateKey;
 import java.security.spec.ECGenParameterSpec;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 
 import db.DbUtil;
 import blockchain.util.Base58Util;
@@ -27,16 +34,14 @@ public class Key {
 	private Base58Util base58 = new Base58Util();
 	private DbUtil db = new DbUtil();
 
-	public String ecc() throws IOException, InvalidAlgorithmParameterException, NoSuchAlgorithmException {
+	public KeyPair ecc() throws IOException,
+			InvalidAlgorithmParameterException, NoSuchAlgorithmException {
 		KeyPairGenerator keyP;
 		keyP = KeyPairGenerator.getInstance("EC");
 		ECGenParameterSpec ecP = new ECGenParameterSpec("secp256k1");
 		keyP.initialize(ecP, new SecureRandom());
 		KeyPair keyPair = keyP.generateKeyPair();
-		String address = publicKeyToAddress(pubKeyToString(keyPair));
-		db.add(priKeyToString(keyPair) + "   " + pubKeyToString(keyPair) + "   " + address + "\n");
-
-		return address;
+		return keyPair;
 	}
 
 	public String pubKeyToString(KeyPair keyPair) {
@@ -52,7 +57,8 @@ public class Key {
 		return ecPrivateKey.getS().toString();
 	}
 
-	public String publicKeyToAddress(String publicKey) throws NoSuchAlgorithmException {
+	public String publicKeyToAddress(String publicKey)
+			throws NoSuchAlgorithmException {
 		StringBuffer result = new StringBuffer();
 
 		String hex256 = tohash.sha256(publicKey);
@@ -65,4 +71,22 @@ public class Key {
 		result.append(hex256Check);
 		return base58.base58Encode(result.toString(), Constant.HEX);
 	}
+
+	public String sign(String privateKey, String message)
+			throws NoSuchAlgorithmException, InvalidKeySpecException,
+			SignatureException, InvalidKeyException {
+		
+		PKCS8EncodedKeySpec pkc = new PKCS8EncodedKeySpec(new BigInteger(
+				privateKey).toByteArray());
+		KeyFactory keyfactory = KeyFactory.getInstance("EC");
+		PrivateKey genprivateKey = keyfactory.generatePrivate(pkc);
+		Signature sign = Signature.getInstance("SHA1withECDSA");
+		sign.initSign(genprivateKey);
+		sign.update(message.getBytes());
+		byte[] signArr = sign.sign();
+		String hex = tohash.byteToHex(signArr);
+		return hex;
+	}
+	
+	public boolean vaild(String publickKey,String message,String )
 }

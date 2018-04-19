@@ -49,5 +49,12 @@ public class HexUtil {
 		}
 		return resultBuf.toString();
 	}
+	
+	public byte[] hexToByte(String hex){
+		char[] hexBit=hex.toCharArray();
+		
+		
+		return null;
+	}
 
 }
