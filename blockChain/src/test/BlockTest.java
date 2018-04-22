@@ -9,31 +9,21 @@ import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
+import java.util.function.Consumer;
 
+import blockchain.Block;
+import blockchain.Transaction;
+import blockchain.util.HexUtil;
 import ecc.Key;
 
 public class BlockTest {
 	public static void main(String[] arg) {
-		Key k=new Key();
-		try {
-			KeyPair kp=k.ecc();
-			String sign=k.sign(k.priKeyToString(kp), "123332123123");
-			
-			
-		} catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException
-				| IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SignatureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Transaction t=new Transaction();
+		t.setTransaction(1, "a", "v", "1");
+		Consumer<Transaction> numCon=x->x.setTransaction(2, "c", "c", "c");
+		numCon.accept(t);
+		System.out.println(t.getIndex());
 	}
 
 	private static byte divmod58(byte[] number, int startAt) {

@@ -1,9 +1,11 @@
 package blockchain.util;
 
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
+import java.util.Arrays;
 
 import org.bouncycastle.crypto.digests.RIPEMD160Digest;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -38,23 +40,33 @@ public class HexUtil {
 	}
 
 	public String byteToHex(byte[] keyArr) {
-		char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
 		StringBuffer resultBuf = new StringBuffer();
 		resultBuf.append("");
 		for (byte key : keyArr) {
-			resultBuf.append(hexDigits[key >>> 4 & 0xf]).append(hexDigits[key & 0xf]);
+			resultBuf.append(Constant.HEXDIGITS[key >>> 4 & 0xf]).append(
+					Constant.HEXDIGITS[key & 0xf]);
 		}
 		if (resultBuf.toString().startsWith(Constant.HEX16_ZERO)) {
 			resultBuf.delete(0, 2);
 		}
 		return resultBuf.toString();
 	}
-	
-	public byte[] hexToByte(String hex){
-		char[] hexBit=hex.toCharArray();
-		
-		
-		return null;
-	}
 
+	public byte[] hexToByte(String hex) {
+
+		if (hex.length() % 2 != 0) {
+			hex += "0";
+		}
+		char[] hexBit = hex.toCharArray();
+		byte[] byteArr = new byte[hex.length() / 2];
+		for (int i = 0; i < hexBit.length; i++) {
+			if (i % 2 == 0) {
+				byteArr[i / 2] = (byte) ((((Arrays.binarySearch(
+						Constant.HEXDIGITS, hexBit[i])) & 0xf) << 4) + ((Arrays
+						.binarySearch(Constant.HEXDIGITS, hexBit[i + 1])) & 0xf));
+			}
+		}
+		return byteArr;
+	}
 }

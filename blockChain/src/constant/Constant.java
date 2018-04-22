@@ -19,5 +19,7 @@ public class Constant {
 	public static int HEX=16;
 	public static int BIN=2;
 	public static int DEC=10;
+	
+	public static char[] HEXDIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 }

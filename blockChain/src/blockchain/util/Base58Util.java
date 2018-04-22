@@ -34,7 +34,8 @@ public class Base58Util {
 	public String base58Encode(BigInteger num) {
 		String result = "";
 		while (num.compareTo(Constant.ZERO) == 1) {
-			result = Constant.B58[num.mod(Constant.BASE58_MOD).intValue()] + result;
+			result = Constant.B58[num.mod(Constant.BASE58_MOD).intValue()]
+					+ result;
 			num = num.divide(Constant.BASE58_MOD);
 		}
 		return result;
@@ -42,10 +43,10 @@ public class Base58Util {
 
 	public String base58Decode(String message, int radix) {
 		StringBuffer result;
-		
+
 		BigInteger num = Constant.ZERO;
 		boolean startZero = false;
-		
+
 		if (message.startsWith("1")) {
 			startZero = true;
 		}
@@ -53,12 +54,14 @@ public class Base58Util {
 		int len = message.length();
 		char[] messageArr = message.toCharArray();
 		for (int i = len - 1; i >= 0; i--) {
-			String index = String.valueOf(Arrays.binarySearch(Constant.B58, messageArr[len - i - 1]));
-			num = ((new BigInteger(index)).multiply(Constant.BASE58_MOD.pow(i))).add(num);
+			String index = String.valueOf(Arrays.binarySearch(Constant.B58,
+					messageArr[len - i - 1]));
+			num = ((new BigInteger(index)).multiply(Constant.BASE58_MOD.pow(i)))
+					.add(num);
 		}
-		
-		if(startZero){
-			
+
+		if (startZero) {
+
 		}
 		return num.toString(radix);
 	}
