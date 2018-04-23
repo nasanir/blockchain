@@ -1,5 +1,7 @@
 package blockchain.util;
 
+import indi.nasanir.blockchain.constant.Constant;
+
 import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -9,8 +11,6 @@ import java.util.Arrays;
 
 import org.bouncycastle.crypto.digests.RIPEMD160Digest;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-import constant.Constant;
 
 /**
  * 

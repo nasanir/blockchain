@@ -1,7 +1,10 @@
 package test;
 
+import indi.nasanir.blockchain.crypto.ecc.Key;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -15,7 +18,6 @@ import java.util.function.Consumer;
 import blockchain.Block;
 import blockchain.Transaction;
 import blockchain.util.HexUtil;
-import ecc.Key;
 
 public class BlockTest {
 	public static void main(String[] arg) {
@@ -24,6 +26,7 @@ public class BlockTest {
 		Consumer<Transaction> numCon=x->x.setTransaction(2, "c", "c", "c");
 		numCon.accept(t);
 		System.out.println(t.getIndex());
+		
 	}
 
 	private static byte divmod58(byte[] number, int startAt) {
