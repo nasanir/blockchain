@@ -1,6 +1,7 @@
-package indi.nasanir.blockchain.crypto.ecc;
+package indi.nasanir.blockchain.crypto.entity;
 
 import indi.nasanir.blockchain.constant.Constant;
+import indi.nasanir.blockchain.crypto.bean.KeyBean;
 import indi.nasanir.blockchain.db.DbUtil;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class Key {
 	private Base58Util base58 = new Base58Util();
 	private DbUtil db = new DbUtil();
 
-	public KeyPair getKey() throws IOException,
+	public KeyBean getKey() throws IOException,
 			InvalidAlgorithmParameterException, NoSuchAlgorithmException {
 		KeyPairGenerator keyP;
 		keyP = KeyPairGenerator.getInstance("EC");

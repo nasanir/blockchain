@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import blockchain.itf.IBlockChain;
+import indi.nasanir.blockchain.core.itf.IBlockChain;
 
 public class BlockChain implements IBlockChain {
 	private ArrayList<Block> chain;

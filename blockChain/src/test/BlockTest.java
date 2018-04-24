@@ -1,7 +1,5 @@
 package test;
 
-import indi.nasanir.blockchain.crypto.ecc.Key;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
@@ -18,6 +16,7 @@ import java.util.function.Consumer;
 import blockchain.Block;
 import blockchain.Transaction;
 import blockchain.util.HexUtil;
+import indi.nasanir.blockchain.crypto.entity.Key;
 
 public class BlockTest {
 	public static void main(String[] arg) {

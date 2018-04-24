@@ -1,5 +1,6 @@
 package indi.nasanir.blockchain.db;
 
+import indi.nasanir.blockchain.core.service.Block;
 import indi.nasanir.blockchain.db.itf.db;
 
 import java.io.BufferedWriter;
@@ -9,9 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import blockchain.itf.IBlockChain;
-import blockchain.Block;
 
 public class DbUtil implements db {
 	private static String BLOCK = "db/block.tdl";

@@ -2,7 +2,8 @@ package indi.nasanir.blockchain.db.itf;
 
 import java.io.IOException;
 
-import blockchain.Block;
+import indi.nasanir.blockchain.core.service.Block;
+
 
 public interface db {
 	/**
