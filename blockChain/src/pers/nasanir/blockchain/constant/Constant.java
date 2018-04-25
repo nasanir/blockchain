@@ -3,12 +3,14 @@ package pers.nasanir.blockchain.constant;
 import java.math.BigInteger;
 
 public class Constant {
-
+	
+	/*Base58*/
+	public static final char[] B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray();
 	public static final BigInteger ZERO = new BigInteger("0");
 	public static final BigInteger BASE58_MOD = new BigInteger("58");
+	public static final BigInteger RADIX256 = new BigInteger("0");
 
-	public static final char[] B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray();
-	public static final String B58_STRING="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+	
 	
 	public static final String ZERO_STRING = "0";
 	public static final String HEX16_ZERO = "00";

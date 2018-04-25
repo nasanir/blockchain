@@ -57,5 +57,29 @@ public interface Encoder {
 	 * @throws
 	 */
 	byte[] encode(String info) throws NoSuchAlgorithmException;
+	
+	/**
+	 * @throws NoSuchAlgorithmException 
+	 * 
+	 * @Title: encode2String
+	 * @Description:encode info to String
+	 * @param @param info
+	 * @param @return
+	 * @return String
+	 * @throws
+	 */
+	String encode2String(byte[] info) throws NoSuchAlgorithmException;
+	
+	/**
+	 * encode info
+	 * 
+	 * @Title: encode
+	 * @Description: encode info
+	 * @param @param info
+	 * @param @return
+	 * @return String
+	 * @throws
+	 */
+	byte[] decode(String info);
 
 }

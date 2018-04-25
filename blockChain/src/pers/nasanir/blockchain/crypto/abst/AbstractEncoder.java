@@ -50,4 +50,22 @@ public abstract class AbstractEncoder implements Encoder {
 		// TODO Auto-generated method stub
 		return encode(TranslateUtil.string2Byte(info));
 	}
+	
+	@Override
+	public String encode2String(byte[] info) throws NoSuchAlgorithmException {
+		// TODO Auto-generated method stub
+		return TranslateUtil.byte2Hex(encode(info));
+	}
+
+	/**
+	* @Title: decode
+	* @Description: 
+	* @return byte []
+	* @throws
+	*/
+	public byte[] decode(String info) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
