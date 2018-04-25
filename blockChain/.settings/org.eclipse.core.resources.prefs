@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/blockchain/util/Base58Util.java=UTF-8
 encoding//src/blockchain/util/HexUtil.java=UTF-8
-encoding//src/indi/nasanir/blockchain/crypto/entity/Key.java=UTF-8
-encoding//src/indi/nasanir/blockchain/crypto/itf/Crypto.java=UTF-8
+encoding//src/pers/nasanir/blockchain/crypto/entity/Key.java=UTF-8
+encoding//src/pers/nasanir/blockchain/crypto/itf/Crypto.java=UTF-8

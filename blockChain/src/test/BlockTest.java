@@ -13,19 +13,14 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.function.Consumer;
 
-import blockchain.Block;
-import blockchain.Transaction;
 import blockchain.util.HexUtil;
-import indi.nasanir.blockchain.crypto.entity.Key;
+import pers.nasanir.blockchain.crypto.entity.Key;
+import pers.nasanir.blockchain.crypto.util.TranslateUtil;
 
 public class BlockTest {
 	public static void main(String[] arg) {
-		Transaction t=new Transaction();
-		t.setTransaction(1, "a", "v", "1");
-		Consumer<Transaction> numCon=x->x.setTransaction(2, "c", "c", "c");
-		numCon.accept(t);
-		System.out.println(t.getIndex());
-		
+		double s= Math.log(4)/Math.log(2);
+		System.out.println(s);
 	}
 
 	private static byte divmod58(byte[] number, int startAt) {

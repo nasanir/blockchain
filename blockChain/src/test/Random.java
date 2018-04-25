@@ -1,17 +1,12 @@
 package test;
 
 public class Random {
-	private int a=2;
-	
-	public Random(){
-		
+	public void a(){
+		System.out.println("parent1-a");
 	}
 	
-	public Random(Random x){
-		x.a=3;
-	}
-	
-	public int  getA(){
-		return this.a;
+	public void b(){
+		a();
+		System.out.println("parent2-b");
 	}
 }

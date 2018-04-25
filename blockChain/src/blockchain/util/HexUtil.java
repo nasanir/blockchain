@@ -19,7 +19,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class HexUtil {
 
-	public String sha256(String message) throws NoSuchAlgorithmException {
+	public  static String sha256(String message) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.update(message.getBytes());
 		byte[] ciphertext = md.digest();
@@ -39,7 +39,7 @@ public class HexUtil {
 		return byteToHex(ciphertext);
 	}
 
-	public String byteToHex(byte[] keyArr) {
+	public static String byteToHex(byte[] keyArr) {
 
 		StringBuffer resultBuf = new StringBuffer();
 		resultBuf.append("");
